@@ -1,10 +1,12 @@
 #include "hough_window.h"
-#include "pic_display_widget.h"
+#include "pic_edit_widget.h"
 
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QString>
+#include <QLayout>
+#include <QPushButton>
 
 namespace Hough
 {
@@ -70,9 +72,10 @@ void HoughWindow::openFiles () {
 ****************************************************************************/
 void HoughWindow::createRawPicWindow(const QString & filename) {
   
-
-  PicDisplayWidget* dw = new PicDisplayWidget(filename);
-  addDockWidget ( Qt::AllDockWidgetAreas, dw );
+  
+  PicEditWidget* dw = new PicEditWidget(filename);
+  addDockWidget ( Qt::LeftDockWidgetArea, dw );
+  dw->setFloating ( true );
 
 }
 

@@ -3,6 +3,7 @@
 
 #include <QPixmap>
 #include <QLayout>
+#include <QPainter>
 
 #include <QDebug>
 
@@ -19,16 +20,14 @@ namespace Gui
 ** Author: Richard Baxter
 **
 ****************************************************************************/
-PicDisplayWidget::PicDisplayWidget(const QString& filename) {
+PicDisplayWidget::PicDisplayWidget(const QImage & image ) : image(&image) {
   
-  image = QImage(filename);
-  
-  label = new QLabel();
-  label->setPixmap ( QPixmap::fromImage(image) );
-  
-  layout()->addWidget(label);
+  setMinimumSize(image.size());
+  resize ( image.size() );
   
   show();
+  
+  repaint();
 }
 
 /****************************************************************************
@@ -39,6 +38,32 @@ PicDisplayWidget::PicDisplayWidget(const QString& filename) {
 PicDisplayWidget::~PicDisplayWidget() {
 
 
+}
+
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void PicDisplayWidget::setImage( const QImage & image ) {
+  this->image = &image;
+  repaint();
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+
+void PicDisplayWidget::paintEvent( QPaintEvent *e )
+{
+  if ( image->size() != QSize( 0, 0 ) ) {         // is an image loaded?
+    QPainter painter(this);
+    painter.setClipRect(e->rect());
+    painter.drawImage(QPoint(0,0), *image , image->rect ());
+  }
 }
 
 

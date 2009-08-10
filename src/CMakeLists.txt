@@ -11,6 +11,7 @@ SET(HOUGH_SRCS_CXX
 
   gui/hough_window.cpp
   gui/pic_display_widget.cpp
+  gui/pic_edit_widget.cpp
   
   
   main.cpp
@@ -23,12 +24,14 @@ SET(HOUGH_MOC_SRCS
   
   gui/hough_window.h
   gui/pic_display_widget.h
+  gui/pic_edit_widget.h
 )
 
 
 SET(HOUGH_UI
 
   gui/hough_window.ui
+  gui/pic_edit_widget.ui
 
 )
 
