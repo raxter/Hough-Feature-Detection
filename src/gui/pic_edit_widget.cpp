@@ -28,6 +28,9 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   
   raw_image.convertToFormat(QImage::Format_RGB888);
   
+  final_image = raw_image.copy();
+  final_image.convertToFormat(QImage::Format_RGB888);
+  
   PicDisplayWidget* rawPicWidget = new PicDisplayWidget(raw_image);
   rawPicArea->layout()->addWidget(rawPicWidget);
   
@@ -37,10 +40,23 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   PicDisplayWidget* houghPicWidget = new PicDisplayWidget(raw_image);
   houghPicArea->layout()->addWidget(houghPicWidget);
   
+  PicDisplayWidget* finalPicWidget = new PicDisplayWidget(final_image);
+  finalPicArea->layout()->addWidget(finalPicWidget);
+  
   connect(filterButton, SIGNAL(released ()), this , SLOT(createFilteredImage()));
   
   connect(houghTranButton, SIGNAL(released ()), this , SLOT(houghTransform()));
   connect(houghTranButton, SIGNAL(released ()), houghPicWidget , SLOT(repaint()));
+  
+  
+  connect(thresholdDoubleSpinBox, SIGNAL(valueChanged ( double )), this , SLOT(thresholdDoubleSpinBoxValueChanged( double )));
+  connect(displayImageCheckBox, SIGNAL(stateChanged ( int )), this , SLOT(displayImageCheckBoxStateChanged( int )));
+  
+  connect(this, SIGNAL(performCircleFind ()), this , SLOT(findCircles()));
+  connect(this, SIGNAL(performCircleFind ()), finalPicWidget , SLOT(repaint()));
+  
+  connect(findCirclesButton, SIGNAL(released ()), this , SLOT(findCircles()));
+  connect(findCirclesButton, SIGNAL(released ()), finalPicWidget , SLOT(repaint()));
   
   connect(this, SIGNAL(updateHoughPic( const QImage& )), houghPicWidget, SLOT( setImage( const QImage& ) ) );
   connect(currentHoughSpinBox, SIGNAL (valueChanged ( int )), this, SLOT(displayHough( int )));
@@ -48,6 +64,18 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   show();
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void PicEditWidget::thresholdDoubleSpinBoxValueChanged(double d) {
+  emit performCircleFind();
+}
+
+void PicEditWidget::displayImageCheckBoxStateChanged(int i) {
+  emit performCircleFind();
+}
 
 /****************************************************************************
 **
@@ -120,6 +148,7 @@ void PicEditWidget::createFilteredImage() {
   }
   
   filteredPicArea->repaint();
+  houghTranButton->setEnabled(true);
   
 }
 
@@ -135,10 +164,10 @@ void PicEditWidget::houghTransform() {
   for (int radius = minSpinBox->value() ; radius < maxSpinBox->value() ; radius ++) {
     qDebug() << "performing " << radius << "/" << maxSpinBox->value();
     //hough_images[radius] = QImage(filtered_image.size(), QImage::Format_RGB888);
-    hough_output[radius].resize(filtered_image.size().height());
+    hough_output[radius].resize(filtered_image.size().width());
     
     for (int i = 0 ; i < hough_output[radius].size() ; i++)
-      hough_output[radius][i].resize(filtered_image.size().width());
+      hough_output[radius][i].resize(filtered_image.size().height());
     
     //QImage& im = hough_images[radius];
     //im.fill(0);
@@ -154,23 +183,85 @@ void PicEditWidget::houghTransform() {
     }
           
   }
+  
+  if (hough_output.size() > 0) {
+    findCirclesButton->setEnabled(true);
+    thresholdDoubleSpinBox->setEnabled(true);
+    displayHough( currentHoughSpinBox->value() );
+  }
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
 void PicEditWidget::displayHough( int value) {
   
   if(hough_output.contains ( value )) {
     
-    int height = hough_output[value].size();
-    int width = hough_output[value][0].size();
+    int width = hough_output[value].size();
+    int height = hough_output[value][0].size();
     hough_image = QImage ( width, height, QImage::Format_RGB888 );
     for (int x = 0 ; x < width ; x++) {
       for (int y = 0 ; y < height ; y++) {
-        QColor c (hough_output[value][y][x], hough_output[value][y][x], hough_output[value][y][x]);
+        QColor c (hough_output[value][x][y], hough_output[value][x][y], hough_output[value][x][y]);
         hough_image.setPixel(x, y, c.rgb());
       }
     }
-    emit updateHoughPic( hough_image);
+    emit updateHoughPic( hough_image );
   }
+}
+
+
+ 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+
+
+void accumulate(QVector <QVector <unsigned int> >& img, int x, int y) {
+  
+  if (x >= 0 && x < img.size() && y >= 0 && y < img[0].size())
+    img[x][y]++;
+}
+
+void plot4pointsAccumulate(QVector <QVector <unsigned int> >& img, int cx, int cy, int x, int y)
+{
+	accumulate(img, cx + x, cy + y);
+	if (x != 0) accumulate(img, cx - x, cy + y);
+	if (y != 0) accumulate(img, cx + x, cy - y);
+	if (x != 0 && y != 0) accumulate(img, cx - x, cy - y);
+}
+void plot8pointsAccumulate(QVector <QVector <unsigned int> >& img, int cx, int cy, int x, int y)
+{
+	plot4pointsAccumulate(img, cx, cy, x, y);
+	if (x != y) plot4pointsAccumulate(img, cx, cy, y, x);
+}
+ 
+void circleAccumulate(QVector <QVector <unsigned int> >& img, int cx, int cy, int radius)
+{
+	int error = -radius;
+	int x = radius;
+	int y = 0;
+ 
+	while (x >= y)
+	{
+		plot8pointsAccumulate(img, cx, cy, x, y);
+ 
+		error += y;
+		++y;
+		error += y;
+ 
+		if (error >= 0)
+		{
+			--x;
+			error -= x;
+			error -= x;
+		}
+	}
 }
 
 
@@ -183,7 +274,9 @@ void PicEditWidget::displayHough( int value) {
 
 void PicEditWidget::plotHoughCircle(int xCenter, int yCenter, int radius)
 {
-  int r2 = radius * radius;
+  QVector <QVector <unsigned int> >& img = hough_output[radius];
+  circleAccumulate(img, xCenter, yCenter, radius);
+  /*int r2 = radius * radius;
   
   QVector <QVector <unsigned int> >& img = hough_output[radius];
   
@@ -219,9 +312,119 @@ void PicEditWidget::plotHoughCircle(int xCenter, int yCenter, int radius)
         
       }
     }
-  }
+  }*/
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void plot4pointsDraw(QImage& img, int cx, int cy, int x, int y)
+{
+	img.setPixel(cx + x, cy + y, 255);
+	if (x != 0) img.setPixel(cx - x, cy + y, 255);
+	if (y != 0) img.setPixel(cx + x, cy - y, 255);
+	if (x != 0 && y != 0) img.setPixel(cx - x, cy - y, 255);
+}
+void plot8pointsDraw(QImage& img, int cx, int cy, int x, int y)
+{
+	plot4pointsDraw(img, cx, cy, x, y);
+	if (x != y) plot4pointsDraw(img, cx, cy, y, x);
+}
+ 
+void circleDraw(QImage& img, int cx, int cy, int radius)
+{
+	int error = -radius;
+	int x = radius;
+	int y = 0;
+ 
+	while (x >= y)
+	{
+		plot8pointsDraw(img, cx, cy, x, y);
+ 
+		error += y;
+		++y;
+		error += y;
+ 
+		if (error >= 0)
+		{
+			--x;
+			error -= x;
+			error -= x;
+		}
+	}
+}
+
+
+void PicEditWidget::plotFinalCircle(int xCenter, int yCenter, int radius)
+{
+  circleDraw(final_image, xCenter, yCenter, radius);
+  
+  /*int r2 = radius * radius;
+  
+  int height = final_image.size().height();
+  int width =  final_image.size().width();
+  
+  QColor c;
+  c.setRgb ( 0, 255, 0);
+  
+  for (int x = -radius; x <= radius; x++) {
+    int y = (int) (sqrt(r2 - x*x) + 0.5);
+    
+    //qDebug() << "------------";
+    //qDebug() << y << "/" << height << ":" << x << "/" << width;
+    int nx = xCenter + x;
+    if (nx >= 0 && nx < width ) {
+
+      int ny = yCenter + y;
+      //qDebug() << ny << "/" << height << ":" << nx << "/" << width;
+      if (ny >= 0 && ny < height) {
+        final_image.setPixel(nx, ny, 255);
+      }
+        
+      ny = yCenter - y;
+      //qDebug() << ny << "/" << height << ":" << nx << "/" << width;
+      if (ny >= 0 && ny < height) {
+        final_image.setPixel(nx, ny, 255);
+        
+      }
+    }
+  }*/
+}
+
+inline unsigned int PicEditWidget::minThreshold (unsigned int radius) {
+  return thresholdDoubleSpinBox->value()*radius;
+}
+
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+void PicEditWidget::findCircles() {
+  
+  final_image = raw_image.copy();
+  if (displayImageCheckBox->checkState () == Qt::Unchecked)
+    final_image.fill(0);
+    
+  Q_FOREACH(unsigned int radius, hough_output.keys () ) {
+    QVector<QVector < unsigned int > >& img = hough_output[radius];
+    
+    qDebug() << "checking radius " << radius;
+    for (int x = 0 ; x < img.size() ; x++) {
+      for (int y = 0 ; y < img[x].size() ; y++) {
+        if ( img[x][y] > minThreshold(radius)) {
+          qDebug() << "value of " << img[x][y] << " for radius " << radius << "(checked against " << minThreshold(radius) << " -> " << ((double)img[x][y]/radius) << ") found at (" << x << ", "<< y << ")";
+          plotFinalCircle(x,y,radius);
+        }
+      }
+    }
+    
+  }
+  
+  //plotFinalCircle(40,40,30);
+}
 
 
 } /* end namespace Gui */

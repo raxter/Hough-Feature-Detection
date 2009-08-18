@@ -24,24 +24,34 @@ class PicEditWidget : public QDockWidget, private Ui::PicEditWidget
 
   signals:
   void updateHoughPic( const QImage& );
+  
+  void performCircleFind();
 
   private slots:
   void createFilteredImage();
   void houghTransform();
   void displayHough( int value );
+  void findCircles();
+  
+  void thresholdDoubleSpinBoxValueChanged(double d);
+  void displayImageCheckBoxStateChanged(int i);
+  
+  unsigned int minThreshold (unsigned int radius);
   
   private: /* overloaded functions */
   
   private: /* functions */
   void plotHoughCircle(int xCenter, int yCenter, int radius);
+  void plotFinalCircle(int xCenter, int yCenter, int radius);
  
   private: /* variables */
   QImage raw_image;
+  QImage final_image;
   QImage filtered_image;
   QImage hough_image;
   
   //QMap<int, QImage> hough_images;
-  QMap< int, QVector<QVector<unsigned int> > > hough_output;
+  QMap< unsigned int, QVector<QVector< unsigned int> > > hough_output;
  
 
 };
