@@ -33,12 +33,15 @@ class PicEditWidget : public QDockWidget, private Ui::PicEditWidget
   private: /* overloaded functions */
   
   private: /* functions */
-  void plotCircle(QImage& image, int xCenter, int yCenter, int radius);
+  void plotHoughCircle(int xCenter, int yCenter, int radius);
  
   private: /* variables */
   QImage raw_image;
   QImage filtered_image;
-  QMap<int, QImage> hough_images;
+  QImage hough_image;
+  
+  //QMap<int, QImage> hough_images;
+  QMap< int, QVector<QVector<unsigned int> > > hough_output;
  
 
 };

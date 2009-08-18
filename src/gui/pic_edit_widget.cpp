@@ -130,32 +130,47 @@ void PicEditWidget::createFilteredImage() {
 ****************************************************************************/
 void PicEditWidget::houghTransform() {
 
-  hough_images.clear();
+  //hough_images.clear();
+  hough_output.clear();
   for (int radius = minSpinBox->value() ; radius < maxSpinBox->value() ; radius ++) {
     qDebug() << "performing " << radius << "/" << maxSpinBox->value();
-    hough_images[radius] = QImage(filtered_image.size(), QImage::Format_RGB888);
-    QImage& im = hough_images[radius];
+    //hough_images[radius] = QImage(filtered_image.size(), QImage::Format_RGB888);
+    hough_output[radius].resize(filtered_image.size().height());
     
-    im.fill(0);
+    for (int i = 0 ; i < hough_output[radius].size() ; i++)
+      hough_output[radius][i].resize(filtered_image.size().width());
+    
+    //QImage& im = hough_images[radius];
+    //im.fill(0);
 
-    int height = im.size().height();
-    int width = im.size().width();
-    for (int x = 0 ; x < width ; x++) for (int y = 0 ; y < height ; y++) 
-    {
-      if (filtered_image.pixelIndex(x,y) == 1) {
-        plotCircle(im, x, y, radius);
-        
+    int height = filtered_image.size().height();
+    int width = filtered_image.size().width();
+    for (int x = 0 ; x < width ; x++) {
+      for (int y = 0 ; y < height ; y++) {
+        if (filtered_image.pixelIndex(x,y) == 1) {
+          plotHoughCircle(x, y, radius);
+        }
       }
     }
-
+          
   }
-
 }
 
 void PicEditWidget::displayHough( int value) {
   
-  if(hough_images.contains ( value ))
-    emit updateHoughPic( hough_images[value]);
+  if(hough_output.contains ( value )) {
+    
+    int height = hough_output[value].size();
+    int width = hough_output[value][0].size();
+    hough_image = QImage ( width, height, QImage::Format_RGB888 );
+    for (int x = 0 ; x < width ; x++) {
+      for (int y = 0 ; y < height ; y++) {
+        QColor c (hough_output[value][y][x], hough_output[value][y][x], hough_output[value][y][x]);
+        hough_image.setPixel(x, y, c.rgb());
+      }
+    }
+    emit updateHoughPic( hough_image);
+  }
 }
 
 
@@ -165,32 +180,42 @@ void PicEditWidget::displayHough( int value) {
 **
 ****************************************************************************/
 //http://www.cs.unc.edu/~mcmillan/comp136/Lecture7/circle.html
-void PicEditWidget::plotCircle(QImage& image, int xCenter, int yCenter, int radius)
+
+void PicEditWidget::plotHoughCircle(int xCenter, int yCenter, int radius)
 {
   int r2 = radius * radius;
-  int height = image.size().height();
-  int width = image.size().width();
+  
+  QVector <QVector <unsigned int> >& img = hough_output[radius];
+  
+  int height = img.size();
+  int width = img[height-1].size();
+  
   
   for (int x = -radius; x <= radius; x++) {
     int y = (int) (sqrt(r2 - x*x) + 0.5);
     
+    //qDebug() << "------------";
+    //qDebug() << y << "/" << height << ":" << x << "/" << width;
     int nx = xCenter + x;
     if (nx >= 0 && nx < width ) {
     
       int ny = yCenter + y;
+      //qDebug() << ny << "/" << height << ":" << nx << "/" << width;
       if (ny >= 0 && ny < height) {
-        QColor c (image.pixel(nx,ny));
-        c.setRgb ( c.red()+1, c.green()+1, c.blue()+1 );
-        image.setPixel(nx, ny, c.rgb());
-        
+        img[ny][nx]++;
+        //QColor c (image.pixel(nx,ny));
+        //c.setRgb ( c.red()+1, c.green()+1, c.blue()+1 );
+        //image.setPixel(nx, ny, c.rgb());
       }
         
       ny = yCenter - y;
+      //qDebug() << ny << "/" << height << ":" << nx << "/" << width;
       if (ny >= 0 && ny < height) {
-      
-        QColor c (image.pixel(nx,ny));
-        c.setRgb ( c.red()+1, c.green()+1, c.blue()+1 );
-        image.setPixel(nx, ny, c.rgb());
+        img[ny][nx]++;
+        
+        //QColor c (image.pixel(nx,ny));
+        //c.setRgb ( c.red()+1, c.green()+1, c.blue()+1 );
+        //image.setPixel(nx, ny, c.rgb());
         
       }
     }
