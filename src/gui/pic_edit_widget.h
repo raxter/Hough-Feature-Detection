@@ -26,6 +26,7 @@ class PicEditWidget : public QDockWidget, private Ui::PicEditWidget
   void updateHoughPic( const QImage& );
   
   void performCircleFind();
+  void enableFindButton( bool );
 
   private slots:
   void createFilteredImage();
@@ -35,6 +36,11 @@ class PicEditWidget : public QDockWidget, private Ui::PicEditWidget
   
   void thresholdDoubleSpinBoxValueChanged(double d);
   void displayImageCheckBoxStateChanged(int i);
+  void emitEnableFindButton(int i);
+  void emitEnableFindButton(double d);
+  
+  bool checkThreshold (int radius, int x, int y, int width, int height);
+  
   
   unsigned int minThreshold (unsigned int radius);
   
