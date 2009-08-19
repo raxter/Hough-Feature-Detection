@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QColor>
+#include <QFileDialog>
 
 
 #include <cmath>
@@ -34,7 +35,7 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   int val = raw_image.width();
   if (val > raw_image.height())
     val = raw_image.height();
-  maxSpinBox->setValue((val/2)+1);
+  maxSpinBox->setValue(val/2);
   
   PicDisplayWidget* rawPicWidget = new PicDisplayWidget(raw_image);
   rawPicArea->layout()->addWidget(rawPicWidget);
@@ -53,6 +54,7 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   connect(houghTranButton, SIGNAL(released ()), this , SLOT(houghTransform()));
   connect(houghTranButton, SIGNAL(released ()), houghPicWidget , SLOT(repaint()));
   
+  connect(saveButton, SIGNAL(released()), this, SLOT(saveFile()));
   
   //connect(thresholdDoubleSpinBox, SIGNAL(valueChanged ( double )), this , SLOT(thresholdDoubleSpinBoxValueChanged( double )));
   //connect(displayImageCheckBox, SIGNAL(stateChanged ( int )), this , SLOT(displayImageCheckBoxStateChanged( int )));
@@ -73,6 +75,37 @@ PicEditWidget::PicEditWidget(const QString& filename) : raw_image(QImage(filenam
   show();
 }
 
+/****************************************************************************
+**
+** Author: Richard Baxter
+**
+****************************************************************************/
+
+void PicEditWidget::saveFile () {
+  
+  QFileDialog file;
+  file.setAcceptMode ( QFileDialog::AcceptSave );
+  
+  QStringList fileNames;
+
+  if (file.exec()) {
+    fileNames = file.selectedFiles();
+  }
+  
+  Q_FOREACH(const QString& str, fileNames) {
+    QString name;
+    if (str.endsWith(".png"))
+      name = str;
+    else
+      name = str+".png";
+      
+    QFile  file( name );
+    if (file.exists())
+      file.remove();
+    final_image.save(name);
+  }
+
+}
 /****************************************************************************
 **
 ** Author: Richard Baxter
@@ -519,9 +552,12 @@ inline bool PicEditWidget::checkThreshold (int radius, int x, int y, int width, 
 ****************************************************************************/
 void PicEditWidget::findCircles() {
   
-  final_image = raw_image.copy();
-  if (displayImageCheckBox->checkState () == Qt::Unchecked)
+  if (displayImageCheckBox->checkState () == Qt::Unchecked) {
+    final_image = QImage (final_image.size(), QImage::Format_RGB888);
     final_image.fill(0);
+  }
+  else
+    final_image = raw_image.copy();
     
     
   QSet<unsigned long long> ignoreList;

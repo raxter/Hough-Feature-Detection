@@ -27,6 +27,8 @@ HoughWindow::HoughWindow() {
   
   connect(actionOpen, SIGNAL(triggered()), this, SLOT(openFiles()));
   connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+  
+  
 }
 
 
@@ -39,7 +41,6 @@ HoughWindow::HoughWindow() {
 HoughWindow::~HoughWindow() {
 
 }
-
 /****************************************************************************
 **
 ** Author: Richard Baxter

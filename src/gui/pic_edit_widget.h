@@ -41,6 +41,7 @@ class PicEditWidget : public QDockWidget, private Ui::PicEditWidget
   
   bool checkThreshold (int radius, int x, int y, int width, int height);
   
+  void saveFile ();
   
   unsigned int minThreshold (unsigned int radius);
   

@@ -1,0 +1,31 @@
+Required to run:
+  Qt 4.3
+  Cmake
+  
+to compile:
+
+cd .build/
+  cmake ..
+  make
+
+to run:
+  cd ./build/
+  ./src/hough
+
+
+Instructions and Algorithmic info:
+  *Open a file by going to File->Open, this will open a window
+  
+  *The Edge Filter Tab contains the button to perform edge filtering (performs Sobel Edge filtering)
+  
+  *Once edge filtering is done, the Hough Transform window contains the button to perform the hough transform. The radius range can be set manually but it is defualt set toradius "3" through to radius "min(img.width, img.height)/2". The hough output can be extracted by changing the "Current Radius Displayed" value. The Hough transform simply plots circle of radius r on each output hough slice, adding one to the 3D array for each pixel drawn. I did plan to optimise this by using the gradient of the edge to reduce the number of drawing operations but ran out of time :(
+  
+  * The last tab does the circle detection. The algorithm looks for values above a certain threshold (4.5 * radius by default) and then scans a 5x5x3 box around the point in 3D space (so it checks a 5x5 box around the point and one radius above and below the point), this will find any other points around it that are above the threshold (those points are marked off and not checked again). All the surrounding points above the threshold are averaged and one circle is plotted on the final output image. This prevents multiple circles in close proximity being detected.
+  
+  *The save button will save the final output image. It will save it in png format regardless.
+  
+
+-Richard Baxter (richard.jonathan.baxter@gmail.com) 
+
+P.S: I fully expect there to be troubles running the program since it requires cmake. Please email if there are any problems and I can come demo it (I've provided the binary file in case anyway)
+

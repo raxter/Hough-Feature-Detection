@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <class>PicEditWidget</class>
- <widget class="QDockWidget" name="PicEditWidget">
-  <property name="geometry">
+ <widget class="QDockWidget" name="PicEditWidget" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
@@ -10,51 +9,51 @@
     <height>625</height>
    </rect>
   </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>DockWidget</string>
   </property>
-  <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QVBoxLayout" name="verticalLayout">
+  <widget class="QWidget" name="dockWidgetContents" >
+   <layout class="QVBoxLayout" name="verticalLayout" >
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
+     <widget class="QTabWidget" name="tabWidget" >
+      <property name="currentIndex" >
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
+      <widget class="QWidget" name="tab" >
+       <attribute name="title" >
         <string>Raw Image</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2" >
         <item>
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
+         <widget class="QScrollArea" name="scrollArea" >
+          <property name="widgetResizable" >
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaContentsWidget">
-           <property name="geometry">
+          <widget class="QWidget" name="scrollAreaContentsWidget" >
+           <property name="geometry" >
             <rect>
              <x>0</x>
              <y>0</y>
              <width>505</width>
-             <height>529</height>
+             <height>538</height>
             </rect>
            </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
+           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" name="rawPicArea" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+             <widget class="QWidget" native="1" name="rawPicArea" >
+              <layout class="QHBoxLayout" name="horizontalLayout_3" />
              </widget>
             </item>
            </layout>
@@ -63,41 +62,41 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
+      <widget class="QWidget" name="tab_2" >
+       <attribute name="title" >
         <string>Edge Filtered Image</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_3" >
         <item>
-         <widget class="QScrollArea" name="scrollArea_2">
-          <property name="widgetResizable">
+         <widget class="QScrollArea" name="scrollArea_2" >
+          <property name="widgetResizable" >
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaContentsWidget_2">
-           <property name="geometry">
+          <widget class="QWidget" name="scrollAreaContentsWidget_2" >
+           <property name="geometry" >
             <rect>
              <x>0</x>
              <y>0</y>
              <width>505</width>
-             <height>478</height>
+             <height>487</height>
             </rect>
            </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <property name="spacing">
+           <layout class="QHBoxLayout" name="horizontalLayout_4" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" name="filteredPicArea" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+             <widget class="QWidget" native="1" name="filteredPicArea" >
+              <layout class="QHBoxLayout" name="horizontalLayout_5" />
              </widget>
             </item>
            </layout>
@@ -105,14 +104,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget" native="true">
-          <layout class="QHBoxLayout" name="horizontalLayout">
+         <widget class="QWidget" native="1" name="widget" >
+          <layout class="QHBoxLayout" name="horizontalLayout" >
            <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
+            <spacer name="horizontalSpacer" >
+             <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0">
+             <property name="sizeHint" stdset="0" >
               <size>
                <width>40</width>
                <height>20</height>
@@ -121,8 +120,8 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="filterButton">
-             <property name="text">
+            <widget class="QPushButton" name="filterButton" >
+             <property name="text" >
               <string>Filter Edges</string>
              </property>
             </widget>
@@ -132,41 +131,41 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="houghTab">
-       <attribute name="title">
+      <widget class="QWidget" name="houghTab" >
+       <attribute name="title" >
         <string>Hough Output</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_4" >
         <item>
-         <widget class="QScrollArea" name="scrollArea_3">
-          <property name="widgetResizable">
+         <widget class="QScrollArea" name="scrollArea_3" >
+          <property name="widgetResizable" >
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaContentsWidget_3">
-           <property name="geometry">
+          <widget class="QWidget" name="scrollAreaContentsWidget_3" >
+           <property name="geometry" >
             <rect>
              <x>0</x>
              <y>0</y>
              <width>505</width>
-             <height>390</height>
+             <height>405</height>
             </rect>
            </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <property name="spacing">
+           <layout class="QHBoxLayout" name="horizontalLayout_7" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" name="houghPicArea" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_8"/>
+             <widget class="QWidget" native="1" name="houghPicArea" >
+              <layout class="QHBoxLayout" name="horizontalLayout_8" />
              </widget>
             </item>
            </layout>
@@ -174,23 +173,23 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget_3" native="true">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <property name="spacing">
+         <widget class="QWidget" native="1" name="widget_3" >
+          <layout class="QVBoxLayout" name="verticalLayout_5" >
+           <property name="spacing" >
             <number>0</number>
            </property>
-           <property name="margin">
+           <property name="margin" >
             <number>0</number>
            </property>
            <item>
-            <widget class="QWidget" name="widget_5" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <widget class="QWidget" native="1" name="widget_5" >
+             <layout class="QHBoxLayout" name="horizontalLayout_10" >
               <item>
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
+               <spacer name="horizontalSpacer_4" >
+                <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -199,38 +198,38 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
+               <widget class="QLabel" name="label" >
+                <property name="text" >
                  <string>Radius Range</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="minSpinBox">
-                <property name="minimum">
+               <widget class="QSpinBox" name="minSpinBox" >
+                <property name="minimum" >
                  <number>3</number>
                 </property>
-                <property name="maximum">
+                <property name="maximum" >
                  <number>9999</number>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_3">
-                <property name="text">
+               <widget class="QLabel" name="label_3" >
+                <property name="text" >
                  <string>to</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="maxSpinBox">
-                <property name="minimum">
+               <widget class="QSpinBox" name="maxSpinBox" >
+                <property name="minimum" >
                  <number>1</number>
                 </property>
-                <property name="maximum">
+                <property name="maximum" >
                  <number>9999</number>
                 </property>
-                <property name="value">
+                <property name="value" >
                  <number>50</number>
                 </property>
                </widget>
@@ -239,14 +238,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_4" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <widget class="QWidget" native="1" name="widget_4" >
+             <layout class="QHBoxLayout" name="horizontalLayout_9" >
               <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
+               <spacer name="horizontalSpacer_3" >
+                <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -255,18 +254,18 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
+               <widget class="QLabel" name="label_2" >
+                <property name="text" >
                  <string>Current Radius Displayed</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="currentHoughSpinBox">
-                <property name="minimum">
+               <widget class="QSpinBox" name="currentHoughSpinBox" >
+                <property name="minimum" >
                  <number>3</number>
                 </property>
-                <property name="maximum">
+                <property name="maximum" >
                  <number>9999</number>
                 </property>
                </widget>
@@ -275,14 +274,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_2" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <widget class="QWidget" native="1" name="widget_2" >
+             <layout class="QHBoxLayout" name="horizontalLayout_6" >
               <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
+               <spacer name="horizontalSpacer_2" >
+                <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -291,11 +290,11 @@
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="houghTranButton">
-                <property name="enabled">
+               <widget class="QPushButton" name="houghTranButton" >
+                <property name="enabled" >
                  <bool>false</bool>
                 </property>
-                <property name="text">
+                <property name="text" >
                  <string>Perform Transform</string>
                 </property>
                </widget>
@@ -308,41 +307,41 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_3">
-       <attribute name="title">
+      <widget class="QWidget" name="tab_3" >
+       <attribute name="title" >
         <string>Final Output</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout_6" >
         <item>
-         <widget class="QScrollArea" name="scrollArea_4">
-          <property name="widgetResizable">
+         <widget class="QScrollArea" name="scrollArea_4" >
+          <property name="widgetResizable" >
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaContentsWidget_4">
-           <property name="geometry">
+          <widget class="QWidget" name="scrollAreaContentsWidget_4" >
+           <property name="geometry" >
             <rect>
              <x>0</x>
              <y>0</y>
              <width>505</width>
-             <height>410</height>
+             <height>422</height>
             </rect>
            </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <property name="spacing">
+           <layout class="QHBoxLayout" name="horizontalLayout_11" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" name="finalPicArea" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_12"/>
+             <widget class="QWidget" native="1" name="finalPicArea" >
+              <layout class="QHBoxLayout" name="horizontalLayout_12" />
              </widget>
             </item>
            </layout>
@@ -350,17 +349,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget_7" native="true">
-          <layout class="QVBoxLayout" name="verticalLayout_7">
+         <widget class="QWidget" native="1" name="widget_7" >
+          <layout class="QVBoxLayout" name="verticalLayout_7" >
            <item>
-            <widget class="QWidget" name="widget_8" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <widget class="QWidget" native="1" name="widget_8" >
+             <layout class="QHBoxLayout" name="horizontalLayout_14" >
               <item>
-               <spacer name="horizontalSpacer_6">
-                <property name="orientation">
+               <spacer name="horizontalSpacer_6" >
+                <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -369,24 +368,24 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="label_4">
-                <property name="text">
+               <widget class="QLabel" name="label_4" >
+                <property name="text" >
                  <string>Threshold: radius * </string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="thresholdDoubleSpinBox">
-                <property name="enabled">
+               <widget class="QDoubleSpinBox" name="thresholdDoubleSpinBox" >
+                <property name="enabled" >
                  <bool>false</bool>
                 </property>
-                <property name="minimum">
+                <property name="minimum" >
                  <double>0.100000000000000</double>
                 </property>
-                <property name="singleStep">
+                <property name="singleStep" >
                  <double>0.100000000000000</double>
                 </property>
-                <property name="value">
+                <property name="value" >
                  <double>4.300000000000000</double>
                 </property>
                </widget>
@@ -395,14 +394,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_6" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <widget class="QWidget" native="1" name="widget_6" >
+             <layout class="QHBoxLayout" name="horizontalLayout_13" >
               <item>
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
+               <spacer name="horizontalSpacer_5" >
+                <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -411,22 +410,29 @@
                </spacer>
               </item>
               <item>
-               <widget class="QCheckBox" name="displayImageCheckBox">
-                <property name="text">
+               <widget class="QCheckBox" name="displayImageCheckBox" >
+                <property name="text" >
                  <string>Display Origional Image</string>
                 </property>
-                <property name="checked">
+                <property name="checked" >
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="findCirclesButton">
-                <property name="enabled">
+               <widget class="QPushButton" name="findCirclesButton" >
+                <property name="enabled" >
                  <bool>false</bool>
                 </property>
-                <property name="text">
+                <property name="text" >
                  <string>Find Circles</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="saveButton" >
+                <property name="text" >
+                 <string>Save</string>
                 </property>
                </widget>
               </item>
